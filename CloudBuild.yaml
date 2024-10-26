@@ -1,0 +1,29 @@
+steps:
+  # Step 1: Clone the repository and download the model file
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['clone', 'https://github.com/ramzibenfradj/deep_learning_devops', '.']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['cp', 'gs://model_deep/plant_disease_prediction_model.h5', 'app/trained_model/plant_disease_prediction_model.h5']
+
+  # Step 2: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'rbenfraj46/flask-project'
+      - 'flask-app'
+
+  # Step 3: Tag the Docker image for Docker Hub
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'tag'
+      - 'rbenfraj46/flask-project'
+      - 'docker.io/rbenfraj46/flask-project'
+
+  # Step 4: Push the Docker image to Docker Hub
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'docker.io/rbenfraj46/flask-project']
+
+  # Step 5: Apply Kubernetes configurations
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'flask-deployment.yaml']

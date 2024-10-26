@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    environment {
+        PROJECT_ID = 'mern-419419'
+        CLUSTER_NAME = 'autopilot-cluster-1'
+        ZONE = 'us-central1'
+    }
+
+    stages {
+        stage('Checkout repository') {
+            steps {
+                // Use 'git' command to checkout the repository
+                git branch: 'main', url: 'https://github.com/firasdr/Netflix-Clone-K8S-End-to-End-Project'
+            }
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                // Use Docker Hub credentials
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                }
+            }
+        }
+
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t rbenfraj46/netflix-v1 .'
+            }
+        }
+
+        stage('Tag Docker image') {
+            steps {
+                sh 'docker tag rbenfraj46/netflix-v1 rbenfraj46/netflix-v1:latest'
+            }
+        }
+
+        stage('Push Docker image to Google Container Registry') {
+            steps {
+                sh 'docker push rbenfraj46/netflix-v1:latest'
+            }
+        }
+
+        stage('SonarQube analysis') {
+            steps {
+                // Run SonarQube analysis
+                sh 'sonar-scanner'
+            }
+        }
+
+        stage('Update Kubernetes deployment') {
+            steps {
+                sh '''
+                    gcloud container clusters get-credentials $CLUSTER_NAME --zone $ZONE --project $PROJECT_ID
+                    kubectl apply -f kubernetes/
+                    kubectl set image deployment/netflix-app netflix-app=netflix-v1:latest
+                '''
+            }
+        }
+    }
+}

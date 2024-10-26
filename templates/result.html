@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom CSS for additional styling */
+        .uploaded-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .predict-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<header class="p-3 border-bottom bg-light">
+  <div class="container-fluid">
+    <div class="row align-items-center g-3">
+      <div class="col-md-3 text-center">
+          <img alt="logo" src="../static/logoBG.png" height="42" width="190">
+      </div>
+      <div class="col-md-5">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search...">
+          <button type="button" class="btn btn-outline-secondary">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success p-0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">PlantAi</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/upload">Predict</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/all_predictions">Last Predictions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact-us">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  
+<body>
+    <div class="container mb-4 pd-4">
+        <h1 class="mt-5 mb-4">Plant Disease Classifier</h1>
+        <div class="result-container">
+            <img src="{{ url_for('uploaded_file', filename=image_file) }}" alt="Uploaded Image" class="img-fluid uploaded-image">
+            <p class="result-text">The predicted class is: {{ prediction }}</p>
+            <a href="/" class="btn btn-primary">Make New Prediction</a>
+            <a href="/all_predictions" class="btn btn-success">See All Predictions</a>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<footer>
+    <div class="container-fluid bg-success py-4 text-white">
+      <div class="row">
+        <div class="col-md-9">
+          <p class="mb-0">Get connected with us on social networks!</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <a href="#" title="Facebook" class="text-white me-3">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="#" title="Instagram" class="text-white me-3">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" title="Youtube" class="text-white me-3">
+            <i class="bi bi-youtube"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid bg-dark py-5 text-white">
+      <div class="row">
+        <div class="col-md-3">
+          <h6>PlantAi</h6>
+          <hr class="text-white" />
+          <p>Welcome to PlantAi - Your Website for Predicting Plant Diseases! Explore an unparalleled online experience with PlantAi, your go-to platform to discover and predict plant diseases accurately.</p>
+        </div>
+        <div class="col-md-3">
+          <h6>Plants Supported</h6>
+          <hr class="text-white" />
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">Potato</a></li>
+            <li><a href="#" class="text-white">Apple</a></li>
+            <li><a href="#" class="text-white">Tomato</a></li>
+            <li><a href="#" class="text-white">Strawberry</a></li>
+            <li><a href="#" class="text-white">Peach</a></li>
+            <li><a href="#" class="text-white">Orange</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>Policy</h6>
+          <hr class="text-white" />
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">Return Policy</a></li>
+            <li><a href="#" class="text-white">Terms Of Use</a></li>
+            <li><a href="#" class="text-white">Security</a></li>
+            <li><a href="#" class="text-white">Privacy</a></li>
+            <li><a href="#" class="text-white">EPR Compliance</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>Address</h6>
+          <hr class="text-white" />
+          <p>
+            <strong>Address</strong><br>
+            Nabeul<br>
+            Tunis<br>
+            <abbr title="Phone">P:</abbr> (216) 20-851-813
+          </p>
+          <h6>Customer Care</h6>
+          <hr class="text-white" />
+          <p>
+            <i class="bi bi-telephone"></i> 20-851-813<br>
+            <i class="bi bi-envelope"></i> PlantAi@email.com
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid bg-secondary py-4 text-white text-center">
+      <div class="row">
+        <div class="col-md-2">
+          <a href="#" class="text-white text-decoration-none"><i class="bi bi-briefcase text-warning"></i> Partner with us</a>
+        </div>
+        <div class="col-md-2">
+          <a href="#" class="text-white text-decoration-none"><i class="bi bi-badge-ad text-info"></i> Advertise</a>
+        </div>
+        <div class="col-md-2">
+          <a href="#" class="text-white text-decoration-none"><i class="bi bi-gift"></i> Gift</a>
+        </div>
+        <div class="col-md-3">&copy; 2024-<?php echo date("Y"); ?> PlantAi.com</div>
+      </div>
+    </div>
+  </footer>
+  
+</html>

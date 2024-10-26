@@ -1,0 +1,6 @@
+Flask
+Flask-Cors
+numpy
+tensorflow
+Pillow
+pymongo
